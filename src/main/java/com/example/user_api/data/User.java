@@ -1,6 +1,7 @@
 package com.example.user_api.data;
 
 import com.example.user_api.model.Level;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,6 +32,7 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "manager_id")
+    @JsonIgnore
     private User manager;
 
     @ManyToOne

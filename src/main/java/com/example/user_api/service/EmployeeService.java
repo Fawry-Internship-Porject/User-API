@@ -12,11 +12,11 @@ public class EmployeeService {
     public EmployeeService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-   /* public UserProjection finduserById(int id){
+    public UserProjection finduserById(int id){
         return userRepository.findUserById(id).orElseThrow(
                 ()-> new RuntimeException("no user with this id")
         );
-    }*/
+    }
 
 
 }

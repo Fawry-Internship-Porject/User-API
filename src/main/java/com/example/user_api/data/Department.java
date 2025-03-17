@@ -15,7 +15,7 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String location;
+    private String name;
 
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
