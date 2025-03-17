@@ -19,11 +19,6 @@ public class EmployeeController {
     }
     @GetMapping("find")
     public ResponseEntity<?> findUserById(@RequestParam int id){
-        try {
             return ResponseEntity.ok(employeeService.finduserById(id));
-        }
-        catch (RuntimeException e) {
-            return ResponseEntity.status(404).body("user not found");
-        }
     }
 }

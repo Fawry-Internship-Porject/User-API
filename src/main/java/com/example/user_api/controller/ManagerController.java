@@ -35,34 +35,19 @@ public class ManagerController {
     }
     @PostMapping("add-user")
     public ResponseEntity<String> addUser(@RequestBody User user){
-        try {
             managerService.addUser(user);
             return ResponseEntity.ok("User added successfully");
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.status(409).body(e.getMessage());
-        }
     }
 
     @PutMapping("/update-user/{id}")
     public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody User user) {
-        try {
             managerService.updateUser(id, user);
             return ResponseEntity.ok("User updated successfully");
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(404).body("User not found");
-        }
     }
     @DeleteMapping("delete-user")
     public ResponseEntity<String> deleteUser(int id){
-        try {
             managerService.deleteUser(id);
             return ResponseEntity.ok("user deleted successfully");
-        }
-        catch (IllegalArgumentException e) {
-            return ResponseEntity.status(404).body("User not found");
-        }
-
     }
 
 }
