@@ -28,11 +28,20 @@ public class ManagerService {
         }
         userRepository.save(user);
     }
-    public void updateUser(User user){
-        if(!userRepository.existsById(user.getId())) {
-            throw new IllegalArgumentException("user doesn't exist in the database");
-        }
-        userRepository.save(user);
+    public void updateUser(int id,User updatedUser){
+        User existingUser = userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("User doesn't exist in the database"));
+        if (updatedUser.getName() != null) existingUser.setName(updatedUser.getName());
+        if (updatedUser.getTitle() != null) existingUser.setTitle(updatedUser.getTitle());
+        if (updatedUser.getRole() != null) existingUser.setRole(updatedUser.getRole());
+        if (updatedUser.getMail() != null) existingUser.setMail(updatedUser.getMail());
+        if (updatedUser.getPhone() != null) existingUser.setPhone(updatedUser.getPhone());
+        if (updatedUser.getLevel() != null) existingUser.setLevel(updatedUser.getLevel());
+        if (updatedUser.getManager() != null) existingUser.setManager(updatedUser.getManager());
+        if (updatedUser.getDepartment() != null) existingUser.setDepartment(updatedUser.getDepartment());
+        if(updatedUser.getSalaryGross()!=null) existingUser.setSalaryGross(updatedUser.getSalaryGross());
+
+        userRepository.save(existingUser);
     }
     public void deleteUser(int id){
         if (!userRepository.existsById(id)) {

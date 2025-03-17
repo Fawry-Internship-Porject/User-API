@@ -1,12 +1,10 @@
 package com.example.user_api.controller;
 
 import com.example.user_api.data.User;
-import com.example.user_api.service.EmployeeService;
+import com.example.user_api.data.UserAuditService;
 import com.example.user_api.service.ManagerService;
-import com.example.user_api.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,11 +13,11 @@ import java.util.List;
 @RequestMapping("manager")
 public class ManagerController {
     private final ManagerService managerService;
-    private final UserService userService;
+    private final UserAuditService userAuditService;
     @Autowired
-    public ManagerController(ManagerService managerService, UserService userService) {
+    public ManagerController(ManagerService managerService, UserAuditService userAuditService) {
         this.managerService = managerService;
-        this.userService = userService;
+        this.userAuditService = userAuditService;
     }
     @GetMapping("find")
     public ResponseEntity<?> findUserById(@RequestParam int id){
@@ -30,6 +28,10 @@ public class ManagerController {
         catch (RuntimeException e) {
         return ResponseEntity.status(404).body("user not found");
         }
+    }
+    @GetMapping("history")
+    public List<Number> getUserHistory(@RequestParam int id){
+        return userAuditService.getUserAuditHistory(id);
     }
     @PostMapping("add-user")
     public ResponseEntity<String> addUser(@RequestBody User user){
@@ -42,13 +44,12 @@ public class ManagerController {
         }
     }
 
-    @PutMapping("update-user")
-    public ResponseEntity<String> updateUser(@RequestBody User user){
+    @PutMapping("/update-user/{id}")
+    public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody User user) {
         try {
-            managerService.updateUser(user);
-            return ResponseEntity.ok("user updated successfully");
-        }
-        catch (IllegalArgumentException e) {
+            managerService.updateUser(id, user);
+            return ResponseEntity.ok("User updated successfully");
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.status(404).body("User not found");
         }
     }
@@ -61,6 +62,7 @@ public class ManagerController {
         catch (IllegalArgumentException e) {
             return ResponseEntity.status(404).body("User not found");
         }
+
     }
 
 }
