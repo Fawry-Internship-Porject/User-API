@@ -10,9 +10,9 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.id = :userId")
     List<User> getUserHistory(@Param("userId") int userId);
-    @Query("SELECT u.name as name, u.email as email, u.role as role FROM User u WHERE u.id = :id")
+   /* @Query("SELECT u.name as name, u.email as email, u.role as role FROM User u WHERE u.id = :id")
     Optional<UserProjection> findUserById(@Param("id") int id);
 
-
+*/
 
 }
