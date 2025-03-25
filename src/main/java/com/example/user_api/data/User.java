@@ -1,6 +1,6 @@
 package com.example.user_api.data;
 
-import com.example.user_api.model.Level;
+import com.example.user_api.controller.Level;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package com.example.user_api.model;
+package com.example.user_api.controller;
 
 public enum Level {
     FRESH,JUNIOR,SENIOR,LEAD

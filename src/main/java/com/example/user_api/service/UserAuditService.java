@@ -1,5 +1,6 @@
-package com.example.user_api.data;
+package com.example.user_api.service;
 
+import com.example.user_api.data.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.hibernate.envers.AuditReader;

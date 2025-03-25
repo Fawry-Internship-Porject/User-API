@@ -1,7 +1,7 @@
 package com.example.user_api.controller;
 
 import com.example.user_api.data.User;
-import com.example.user_api.data.UserAuditService;
+import com.example.user_api.service.UserAuditService;
 import com.example.user_api.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("manager")
+@CrossOrigin(origins="*")
 public class ManagerController {
     private final ManagerService managerService;
     private final UserAuditService userAuditService;
