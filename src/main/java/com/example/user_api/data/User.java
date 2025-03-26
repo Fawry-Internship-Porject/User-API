@@ -41,10 +41,9 @@ public class User {
 
     @ManyToOne
     @JoinColumn(name = "manager_id")
-    @JsonIgnore
     private User manager;
 
-    @JsonIgnore
+
     @ManyToOne
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
