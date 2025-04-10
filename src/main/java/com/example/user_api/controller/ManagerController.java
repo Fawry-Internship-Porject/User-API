@@ -22,17 +22,12 @@ public class ManagerController {
     }
     @GetMapping("find")
     public ResponseEntity<?> findUserById(@RequestParam int id){
-        try {
-
-            return ResponseEntity.ok(managerService.findUserById(id));
-        }
-        catch (RuntimeException e) {
-        return ResponseEntity.status(404).body("user not found");
-        }
+     return ResponseEntity.ok(managerService.findUserById(id));
     }
     @GetMapping("history")
-    public List<Number> getUserHistory(@RequestParam int id){
-        return userAuditService.getUserAuditHistory(id);
+    public ResponseEntity<?> getUserHistory(@RequestParam int id)
+    {
+        return ResponseEntity.ok(userAuditService.getUserAuditHistory(id));
     }
     @PostMapping("add-user")
     public ResponseEntity<String> addUser(@RequestBody User user){

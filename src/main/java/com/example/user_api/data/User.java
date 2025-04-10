@@ -1,7 +1,9 @@
 package com.example.user_api.data;
 
 import com.example.user_api.controller.Level;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,6 +11,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
+
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -17,6 +22,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Audited
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class User {
 
     @Id
@@ -28,6 +34,7 @@ public class User {
     private String title;
     private String role;
     @NotAudited
+    @Column(unique = true,nullable = false)
     private String mail;
     @NotAudited
     private String password;
@@ -39,6 +46,7 @@ public class User {
     @Transient
     private Float salaryNet;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "manager_id")
     private User manager;
@@ -68,4 +76,5 @@ public class User {
         User user = (User) obj;
         return id== user.id;
     }
+
 }

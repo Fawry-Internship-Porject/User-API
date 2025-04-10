@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
-    @Query("SELECT u FROM User u WHERE u.id = :userId")
-    List<User> getUserHistory(@Param("userId") int userId);
+    Optional<User> findByMail(String mail);
+
     @Query("SELECT u.id AS id, u.name AS name, u.title AS title, u.role AS role, " +
             "u.mail AS mail, u.phone AS phone, u.level AS level, " +
             "u.manager.id AS managerId, u.department.id AS departmentId " +
