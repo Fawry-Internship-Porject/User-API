@@ -2,7 +2,6 @@ package com.example.user_api.data;
 
 import com.example.user_api.controller.Level;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -12,8 +11,6 @@ import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -32,7 +29,7 @@ public class User {
     @NotAudited
     private String name;
     private String title;
-    private String role;
+    private Role role;
     @NotAudited
     @Column(unique = true,nullable = false)
     private String mail;
