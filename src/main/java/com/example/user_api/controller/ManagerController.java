@@ -43,32 +43,23 @@ public class ManagerController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addUser(@RequestBody User user) {
+    public void addUser(@RequestBody User user) {
         managerService.addUser(user);
         ldapUserService.add(user.getMail(), user.getPassword(), user.getRole());
-        return ResponseEntity.status(HttpStatus.CREATED).body("User added successfully");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody User user) {
+    public void updateUser(@PathVariable int id, @RequestBody User user) {
         Optional<UserProjection> userProjection = userRepository.findUserById(id);
-        if (userProjection.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         ldapUserService.modify(userProjection.get().getMail(), user.getPassword(), user.getRole());
         managerService.updateUser(id, user);
-        return ResponseEntity.ok("User updated successfully");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable int id) {
+    public void deleteUser(@PathVariable int id) {
         Optional<UserProjection> userProjection = userRepository.findUserById(id);
-        if (userProjection.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
         managerService.deleteUser(id);
         ldapUserService.delete(userProjection.get().getMail());
-        return ResponseEntity.ok("User deleted successfully");
     }
 
 }
