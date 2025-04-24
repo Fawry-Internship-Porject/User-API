@@ -1,12 +1,14 @@
 package com.example.user_api.controller;
 
 import com.example.user_api.data.User;
+import com.example.user_api.data.UserAuditDTO;
 import com.example.user_api.data.UserProjection;
 import com.example.user_api.data.UserRepository;
 import com.example.user_api.service.LdapUserService;
 import com.example.user_api.service.UserAuditService;
 import com.example.user_api.service.ManagerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("manager")
+@RequestMapping("managers")
 @CrossOrigin(origins = "*")
 public class ManagerController {
     private final ManagerService managerService;
@@ -30,37 +32,43 @@ public class ManagerController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping("find")
-    public ResponseEntity<?> findUserById(@RequestParam int id) {
-        return ResponseEntity.ok(managerService.findUserById(id));
+    @GetMapping("/{id}")
+    public User findUserById(@PathVariable int id) {
+        return managerService.findUserById(id);
     }
 
-    @GetMapping("history")
-    public ResponseEntity<?> getUserHistory(@RequestParam int id) {
-        return ResponseEntity.ok(userAuditService.getUserAuditHistory(id));
+    @GetMapping("/{id}/history")
+    public List<UserAuditDTO> getUserHistory(@PathVariable int id) {
+        return userAuditService.getUserAuditHistory(id);
     }
 
-    @PostMapping("add-user")
+    @PostMapping
     public ResponseEntity<String> addUser(@RequestBody User user) {
         managerService.addUser(user);
         ldapUserService.add(user.getMail(), user.getPassword(), user.getRole());
-        return ResponseEntity.ok("User added successfully");
+        return ResponseEntity.status(HttpStatus.CREATED).body("User added successfully");
     }
 
-    @PutMapping("/update-user/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<String> updateUser(@PathVariable int id, @RequestBody User user) {
         Optional<UserProjection> userProjection = userRepository.findUserById(id);
+        if (userProjection.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         ldapUserService.modify(userProjection.get().getMail(), user.getPassword(), user.getRole());
         managerService.updateUser(id, user);
         return ResponseEntity.ok("User updated successfully");
     }
 
-    @DeleteMapping("delete-user")
-    public ResponseEntity<String> deleteUser(int id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable int id) {
         Optional<UserProjection> userProjection = userRepository.findUserById(id);
+        if (userProjection.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
         managerService.deleteUser(id);
         ldapUserService.delete(userProjection.get().getMail());
-        return ResponseEntity.ok("user deleted successfully");
+        return ResponseEntity.ok("User deleted successfully");
     }
 
 }

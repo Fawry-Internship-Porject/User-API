@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("login")
+@RequestMapping("auth")
 @CrossOrigin(origins="*")
 public class LoginController {
     LoginService loginService;
@@ -16,7 +16,7 @@ public class LoginController {
         this.loginService = loginService;
     }
     @GetMapping
-    public ResponseEntity<?> login(@RequestParam String email , @RequestParam String password){
-        return  ResponseEntity.ok(loginService.login(email, password));
+    public User login(@RequestParam String email , @RequestParam String password){
+        return  loginService.login(email, password);
     }
 }
